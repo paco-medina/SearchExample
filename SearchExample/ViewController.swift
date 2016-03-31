@@ -8,18 +8,28 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UISearchBarDelegate {
 
+    var searchController : UISearchController!
+    var searchBarDelegate : FMSearchBarDelegate!
+    let searchResultsController = FMSearchResultsVC()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        setupSearchController()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - Search controller
+    private func setupSearchController() {
+        // Setup the Search Controller
+        searchBarDelegate = FMSearchBarDelegate(presenterView: view)
+        searchController = UISearchController(searchResultsController: searchResultsController)
+        searchController.searchResultsUpdater = searchResultsController
+        searchBarDelegate.searchBar = searchController.searchBar
+        definesPresentationContext = true
+        searchController.dimsBackgroundDuringPresentation = false
+        self.navigationItem.titleView = searchController.searchBar
+        searchController.hidesNavigationBarDuringPresentation = false
     }
-
-
+    
 }
 
